@@ -1,0 +1,14 @@
+Gem::Specification.new do |s|
+  s.name        = 'fixed_length_encoder'
+  s.version     = '1.0.0'
+  s.date        = '2012-12-14'
+  s.summary     = 'Two way conversion from integer to a fixed (default=8) digit string.'
+  s.description = 'Integers are converted to strings using a binary reversal ' +
+                  'and a shuffled base 62 alphabet.  Strings with valid digits (0-9 a-z A-z)' +
+                  'are converted back to integers.  The encoding is one-to-one but not sequential.' +
+                  'This is useful for obfuscating user ids in urls.'
+  s.authors     = ['Brett Pontarelli']
+  s.email       = 'brett@paperyfrog.com'
+  s.files       = ['lib/fixed_length_encoder.rb']
+  s.homepage    = 'http://rubygems.org/gems/fixed_length_encoder'
+end
