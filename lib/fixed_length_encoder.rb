@@ -1,5 +1,5 @@
 module FixedLengthEncoder
-  ALPHABET = 'QkzHJPxlXtZrTYjiIV482CuqMOBocsEDLa5vhWfb6Ke1NGS9RUyd70nF3gmpwA'
+  ALPHABET = 'cg1b723erwp5f8sv0hdmtzxa4juqik9lon6y'
   LENGTH = 8
 
   def self.encode(value, message_length = nil)
@@ -28,7 +28,7 @@ module FixedLengthEncoder
     def encode(value, message_length)
       raise ArgumentError, 'Cannot encode a non-integer.' unless value.is_a?(Integer)
       self.setup(message_length)
-      raise ArgumentError, "Cannot encode #{value} in #{@message_length} characters" if value > @max_value
+      raise ArgumentError, "Cannot encode #{value} in #{@message_length} characters" if value >= @max_value
       value = self.scramble_value(value, @max_bits)
       self.integer_to_string(@alphabet, value, @message_length)
     end

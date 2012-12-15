@@ -28,7 +28,7 @@ describe FixedLengthEncoder do
     end
 
     it 'shouldn\'t encode values too big for message length' do
-      expect { FixedLengthEncoder.encode(65, 2) }.to raise_error(ArgumentError)
+      expect { FixedLengthEncoder.encode(64, 2) }.to raise_error(ArgumentError)
     end
 
     it 'should error for non-strings' do
@@ -57,6 +57,13 @@ describe FixedLengthEncoder do
     it 'should be reversible' do
       value = 99999
       message = FixedLengthEncoder.encode(value)
+      FixedLengthEncoder.decode(message).should eq(value)
+    end
+
+    it 'should be reversible for the max value' do
+      value = (2**Math::log(62**8, 2).floor)-1
+      message = FixedLengthEncoder.encode(value)
+      message.should eq('00000000')
       FixedLengthEncoder.decode(message).should eq(value)
     end
   end
