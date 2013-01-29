@@ -63,11 +63,11 @@ Running ruby `stats\test.rb` a random sample of 10M values were encoded along wi
 `value + 1`.  The delta between the two strings were compared (as base 36 numbers) and the results 
 are summarized below:
 
-     Negative deltas:         5,008,764 (50.08764%)
-    Delta equals one:            38,459 (0.38459%)
-       Maximum Delta: 2,809,908,911,931 (36**8 = 2,821,109,907,456)
-       Average Delta:   796,377,688,846
-             Std Dev:   701,198,464,287
+     Negative deltas:         4,952,221 (49.52221%)
+    Delta equals one:            30,830 (0.3083%)
+       Maximum Delta: 2,807,409,875,961 (36**8 = 2,821,109,907,456)
+       Average Delta:   789,874,810,124
+             Std Dev:   697,298,809,493
 
 * Author  :: Brett Pontarelli <brett@paperyfrog.com>
 * Website :: http://brett.pontarelli.com

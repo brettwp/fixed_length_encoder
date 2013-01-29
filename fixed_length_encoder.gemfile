@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'fixed_length_encoder'
-  s.version     = '1.2.0'
+  s.version     = '1.2.1'
   s.date        = '2013-01-28'
   s.summary     = 'Two way conversion from integer to a fixed (default=8) digit string.'
   s.description = 'Integers are converted to strings using a complex mapping ' +

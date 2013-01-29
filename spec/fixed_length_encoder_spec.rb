@@ -121,9 +121,5 @@ describe FixedLengthEncoder do
       message = FixedLengthEncoder.encode(value)
       FixedLengthEncoder.decode(message).should eq(value)
     end
-
-    it 'X' do
-      FixedLengthEncoder.selfTest()
-    end
   end
 end
