@@ -1,33 +1,29 @@
 # fixed_length_encoder
 
-A one-to-one mapping function between integers and fixed length strings, such that sequential integers
-are mapped to non-sequential strings.  In other words you can obfuscate user ids for use in urls.
+A one-to-one mapping function between integers and fixed length strings, such that sequential 
+integers are mapped to non-sequential strings.  In other words you can obfuscate user ids for use 
+in urls.
 
 * https://rubygems.org/gems/fixed_length_encoder
 * http://github.com/brettwp/fixed_length_encoder
 
 ## How it works
 
-A fixed length (default is 8) is specified and then for any integer a string is computed by first reversing
-the binary digits and converting that number to a base 36 number using a shuffled alphabet of
-0-9, a-z.  For example:
+### Encoding
 
-    1 => otaarrtt 
-    2 => laeottpr 
-    3 => ronllleo 
-    4 => rrnpnllr 
-    5 => tnlreorn
+Converts a value to a string of fixed length (default is 8).  As of `1.2` the maximum encodable 
+value is the same as the alphabet maximum.  For example the default 36 character alphabet and 8 
+character fixed length can encoded numbers between 0 and 2,821,109,907,455 = `36**8 - 1`.
 
-Note that the maximum encodable value is not the same as the alphabet maximum.  For example the default 8 character
-base 36 number is between 0 and 2,821,109,907,456 = `36**8`.  But, since the bit reversal needs to be symmetric we
-limit the binary digits to `log(36**8, 2).floor`.  Thus, the maximum encodable value is 2,199,023,255,552 which you
-can test by calling
+### Decoding
 
-    max_value = (2**Math::log(36**8, 2).floor)
-    FixedLengthEncoder.encode(max_value - 1)
-    FixedLengthEncoder.encode(max_value)
+Given a string returns the decoded number.  Note that the two operations are reversible and 
+adjacent values are unlikely to return adjacent strings (See Stats below).  For example, using the 
+default configuration:
 
-and noting that one raises an error and the other returns `cccccccc`.
+    FixedLengthEncoder.decode(FixedLengthEncoder.encode(100)) == 100
+    FixedLengthEncoder.encode(100) == '2n70ni9w'
+    FixedLengthEncoder.encode(101) == '50naynf8'
 
 ## How to install
 
@@ -37,27 +33,41 @@ and noting that one raises an error and the other returns `cccccccc`.
 
     require 'fixed_length_encoder'
 
-    FixedLengthEncoder.encode(42)
-    FixedLengthEncoder.decode('edluxu9d')
+    FixedLengthEncoder.encode(100)
+    FixedLengthEncoder.decode('2n70ni9w')
 
     FixedLengthEncoder.encode(42, 3)
-    FixedLengthEncoder.decode('my0')
+    FixedLengthEncoder.decode('6pd')
 
 ## Changing the length
 
     FixedLengthEncoder::MESSAGE_LENGTH = 10
 
-## Changing the alphabet
+## Changing the alphabet and encoding
 
-    FixedLengthEncoder::ALPHABET = 'pontarelli'
+The `ALPHABET`, `ENCODE_MAP` and `DECODE_MAP` must all work together.  The two maps must also be 
+reversible.  For example, for an alphabet of 62 characters you will need to build two maps of 
+length `62**2 - 1` such that `DECODE_MAP[ENCODE_MAP[x]] == x`.  One such way to do this would be:
 
-    FixedLengthEncoder.encode(42)
-    FixedLengthEncoder.decode('lelllpra')
+    max = 62*62 - 1
+    ENCODE_MAP = (0..max).to_a.shuffle
+    DECODE_MAP = []
+    (0..max).each { |i| DECODE_MAP[ENCODE_MAP[i]] = i }
 
-    FixedLengthEncoder.encode(42, 3)
-    FixedLengthEncoder.decode('tat')
+Then, hard code these results into your application.  Note how the default `ALPHABET`, 
+`ENCODE_MAP` and `DECODE_MAP` are hard coded into the `FixedLengthEncoded`
 
-# Extra
+# Stats
+
+Running ruby `stats\test.rb` a random sample of 10M values were encoded along with 
+`value + 1`.  The delta between the two strings were compared (as base 36 numbers) and the results 
+are summarized below:
+
+     Negative deltas:         5,008,764 (50.08764%)
+    Delta equals one:            38,459 (0.38459%)
+       Maximum Delta: 2,809,908,911,931 (36**8 = 2,821,109,907,456)
+       Average Delta:   796,377,688,846
+             Std Dev:   701,198,464,287
 
 * Author  :: Brett Pontarelli <brett@paperyfrog.com>
 * Website :: http://brett.pontarelli.com

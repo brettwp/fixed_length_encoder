@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name        = 'fixed_length_encoder'
-  s.version     = '1.1.0'
-  s.date        = '2012-12-14'
+  s.version     = '1.2.0'
+  s.date        = '2013-01-28'
   s.summary     = 'Two way conversion from integer to a fixed (default=8) digit string.'
-  s.description = 'Integers are converted to strings using a binary reversal ' +
-                  'and a shuffled base 36 alphabet.  Strings with valid digits (0-9 a-z)' +
+  s.description = 'Integers are converted to strings using a complex mapping ' +
+                  'and a base 36 alphabet.  Strings with valid digits (0-9 a-z)' +
                   'are converted back to integers.  The encoding is one-to-one but not sequential.' +
                   'This is useful for obfuscating user ids in urls.'
   s.authors     = ['Brett Pontarelli']
