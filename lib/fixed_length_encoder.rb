@@ -63,30 +63,26 @@ module FixedLengthEncoder
 
     def offset(value, direction)
       offset = (@max_value/2).floor
-      (value += offset) if direction > 0
-      (value -= offset) if direction < 0
-      (value += @max_value) if value < 0
-      (value -= @max_value) if value >= @max_value
-      value
+      (value + direction * offset) % @max_value
     end
 
     def scramble_value(value, direction)
-      message = integer_to_array(value)      
+      message = integer_to_array(value)
       message = map_array(message, @encode_map, direction) if direction > 0
       message = map_array(message, @decode_map, direction) if direction < 0
       array_to_integer(message)
     end
 
     def map_array(message, map, direction)
-      indexes = (1..(@message_length - 1)).to_a
+      indexes = (0..@message_length).to_a.map { |i| i % @message_length }
       indexes = indexes.reverse if direction < 0
-      indexes.each do |index|
-        low = message[index - 1]
-        high = message[index]
-        map_index = high * @base + low
+      (0...@message_length).each do |index|
+        low_index = indexes[index]
+        high_index = indexes[index + 1]
+        map_index = message[high_index] * @base + message[low_index]
         map_value = map[map_index]
-        message[index - 1] = map_value % @base
-        message[index] = map_value / @base
+        message[low_index] = map_value / @base
+        message[high_index] = map_value % @base
       end
       message
     end

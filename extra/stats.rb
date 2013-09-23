@@ -1,4 +1,4 @@
-require '../lib/fixed_length_encoder'
+require 'fixed_length_encoder'
 
 def c(number)
   number.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse

@@ -39,7 +39,7 @@ describe FixedLengthEncoder do
       expect { FixedLengthEncoder.decode(0) }.to raise_error(ArgumentError)
     end
 
-    it 'should error for bad characgters' do
+    it 'should error for bad characters' do
       expect { FixedLengthEncoder.decode('^') }.to raise_error(ArgumentError)
     end
   end
@@ -52,7 +52,7 @@ describe FixedLengthEncoder do
         @decode_map = FixedLengthEncoder::DECODE_MAP
         FixedLengthEncoder::ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         max = 62*62 - 1
-        encode_map = (0..max).to_a.shuffle 
+        encode_map = (0..max).to_a.shuffle
         decode_map = []
         (0..max).each { |i| decode_map[encode_map[i]] = i }
         FixedLengthEncoder::ENCODE_MAP = encode_map
