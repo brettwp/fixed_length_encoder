@@ -60,15 +60,21 @@ that define the default `ALPHABET`, `ENCODE_MAP` and `DECODE_MAP` in the `FixedL
 
 # Stats
 
-Running ruby `stats\test.rb` a random sample of 10M values were encoded along with
-`value + 1`.  The delta between the two strings were compared (as base 36 numbers) and the results
-are summarized below:
+Consider a random `value` using the `FixedLengthEncoder` default `LENGTH` of 8 and `ALPHABET` of 36
+characters.  If we encode `value` and `value + 1` and compute the difference between them in base 36
+we get a `delta`.  The table below compares the distribution of 10M pairs of two adjacent encoded values with 10M pairs of two random numbers.
+Both sets are taken from the range `0` to `36**8 = 2,821,109,907,456`.  As expected the number of
+negative deltas is near `50%` with the encoded values `49.9860%` negative and random `49.9989%`.
+It's interesting to note that there are no random occurances of two adjecent values, but in the
+encoded values there are `674`.
 
-     Negative deltas:         4,952,221 (49.52221%)
-    Delta equals one:            30,830 (0.3083%)
-       Maximum Delta: 2,807,409,875,961 (36**8 = 2,821,109,907,456)
-       Average Delta:   789,874,810,124
-             Std Dev:   697,298,809,493
+|                 |: Encoded         :|: Random          :|
+| ---------------:| -----------------:| -----------------:|
+|  Negative deltas|         4,998,610 |         4,999,894 |
+| Delta equals one|               674 |                 0 |
+|    Maximum Delta| 2,820,278,456,877 | 2,820,579,691,973 |
+|    Average Delta|   935,745,508,922 |   940,183,477,180 |
+|          Std Dev| 1,148,460,034,903 | 1,151,442,250,985 |
 
 * Author  :: Brett Pontarelli <brett@paperyfrog.com>
 * Website :: http://brett.pontarelli.com
